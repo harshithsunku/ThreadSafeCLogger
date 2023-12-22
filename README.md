@@ -37,6 +37,23 @@ Compile the library:
 gcc -o logger main.c logger.c -lpthread
 ```
 
+### Building the Project with Makefile
+
+You can build the project using the provided Makefile:
+
+```bash
+make
+```
+
+This will create an executable named `logger`.
+
+To clean up the build (remove the compiled output), run:
+
+```bash
+make clean
+```
+
+
 ### Usage
 
 Here's a simple example of how to use ThreadSafeCLogger in your C application:

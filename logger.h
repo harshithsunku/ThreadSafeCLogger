@@ -1,5 +1,5 @@
 /**
- * @file        main.c
+ * @file        logger.h
  * @brief       ThreadSafeCLogger: A high-performance, thread-safe logging library for C applications.
  * @author      Harshith Sunku
  * @date        [12/22/2023]
@@ -29,33 +29,53 @@
  * @todo        Features or fixes planned for future versions.
  */
 
-#include <stdio.h>
-#include "logger.h"
+#ifndef LOGGER_H
+#define LOGGER_H
+
+#include <pthread.h>
 
 /*
- * Main function of the application.
- * Initializes the logger, performs application tasks, and then closes the logger.
+ * Enumeration for different levels of logging.
+ * LOG_LEVEL_DEBUG: Used for detailed debugging messages.
+ * LOG_LEVEL_INFO:  Used for general informational messages.
+ * LOG_LEVEL_WARN:  Used for warning messages.
+ * LOG_LEVEL_ERROR: Used for error messages.
  */
-int main() {
-    // Initialize the logger
-    if (log_init("log.txt", LOG_LEVEL_INFO) != 0) {
-        fprintf(stderr, "Failed to initialize logger\n");
-        return 1;
-    }
+typedef enum {
+    LOG_LEVEL_DEBUG,
+    LOG_LEVEL_INFO,
+    LOG_LEVEL_WARN,
+    LOG_LEVEL_ERROR
+} LogLevel;
 
-    // Write a log message indicating the application has started
-    log_write(LOG_LEVEL_INFO, "Application started");
+/*
+ * Initializes the logging system.
+ * Parameters:
+ *   filename - Name of the file to write log messages to.
+ *   level - Minimum level of log messages to be written to the file.
+ * Returns:
+ *   0 on success, non-zero on failure.
+ */
+int log_init(const char *filename, LogLevel level);
 
-    // Application code here
+/*
+ * Writes a log message to the log file.
+ * Only writes messages that are of a level equal to or higher than the current log level.
+ * Parameters:
+ *   level - Level of the log message.
+ *   message - The log message to write.
+ */
+void log_write(LogLevel level, const char *message);
 
-    // Write a log message indicating the application is ending
-    log_write(LOG_LEVEL_INFO, "Application ending");
+/*
+ * Closes the logging system and releases any allocated resources.
+ */
+void log_close();
 
-    //Function to print the log in reverse order.
-    read_log_reverse_thread_safe("log.txt");
+/*
+ * Prints the log in reverse order from file. 
+ */
+void read_log_reverse_thread_safe(const char *filename);
 
-    // Close the logger
-    log_close();
+#endif // LOGGER_H
 
-    return 0;
-}
