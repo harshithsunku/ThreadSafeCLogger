@@ -42,6 +42,9 @@
 *.idb
 *.pdb
 
+# Ignore specific temporary files
+*.c...
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
@@ -50,3 +53,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+TAGS
