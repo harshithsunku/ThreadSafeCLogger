@@ -102,7 +102,6 @@ void read_log_reverse_thread_safe(const char *filename) {
 
 // Thread function for processing log messages
 void *log_thread_func(void *args) {
-    printf("logging thread started");
     while (1) {
         pthread_mutex_lock(&log_mutex);
 
